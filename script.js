@@ -1,48 +1,40 @@
-//your JS code here. If required.
-window.onload = function () {
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const checkbox = document.getElementById("checkbox");
-    const submitBtn = document.getElementById("submit");
-    const existingBtn = document.getElementById("existing");
+// Elements
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const checkbox = document.getElementById("checkbox");
+const submitBtn = document.getElementById("submit");
+const existingBtn = document.getElementById("existing");
 
-    // ---- Load stored credentials if present ----
-    let savedUsername = localStorage.getItem("username");
-    let savedPassword = localStorage.getItem("password");
+// Check if saved credentials exist
+const savedUser = localStorage.getItem("username");
+const savedPass = localStorage.getItem("password");
 
-    // If credentials exist, show "Login as existing user" button
-    if (savedUsername && savedPassword) {
-        existingBtn.style.display = "inline-block";
-    }
+// If credentials found → show the "Login as existing user" button
+if (savedUser && savedPass) {
+  existingBtn.style.display = "block";
+}
 
-    // ---- Submit Button Event ----
-    submitBtn.onclick = function (event) {
-        event.preventDefault();  // prevent form reload
+// Existing user login button
+existingBtn.addEventListener("click", () => {
+  alert(`Logged in as ${savedUser}`);
+});
 
-        const username = usernameInput.value;
-        const password = passwordInput.value;
+// Submit form logic
+submitBtn.addEventListener("click", (e) => {
+  e.preventDefault();
 
-        alert("Logged in as " + username);
+  const username = usernameInput.value;
+  const password = passwordInput.value;
 
-        if (checkbox.checked) {
-            // Save credentials
-            localStorage.setItem("username", username);
-            localStorage.setItem("password", password);
+  alert(`Logged in as ${username}`);
 
-            existingBtn.style.display = "inline-block";
-        } else {
-            // Remove stored credentials
-            localStorage.removeItem("username");
-            localStorage.removeItem("password");
-
-            existingBtn.style.display = "none";
-        }
-    };
-
-    // ---- Existing User Login Event ----
-    existingBtn.onclick = function () {
-        let storedUsername = localStorage.getItem("username");
-        alert("Logged in as " + storedUsername);
-    };
-};
-
+  if (checkbox.checked) {
+    // Save credentials
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+  } else {
+    // Remove saved credentials
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+  }
+});
